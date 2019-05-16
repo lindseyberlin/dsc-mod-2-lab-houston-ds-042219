@@ -8,7 +8,8 @@ import json
 # Defining a class to contain all functions and attributes related to weather
 class WeatherHandler():
     def __init__(self, api_key):
-        self.api_base_url = f"https://api.darksky.net/forecast/{API_key}/"
+        self.api_key = api_key
+        self.api_base_url = f"https://api.darksky.net/forecast/{self.api_key}/"
 
     def get_weather(self, lat, long, date):
         # Date is coming from our GameDataHandler class
@@ -20,7 +21,7 @@ class WeatherHandler():
 
         # URL is set based on lat, long, and date
         # Retrieving only daily data, by excluding currently and hourly
-        self.url = f"{self.api_base_url}{lat},{long},{date}T20:00:00?exclude=currently, hourly"
+        self.url = f"{self.api_base_url}{self.lat},{self.long},{self.date}T20:00:00?exclude=currently, hourly"
 
         r = requests.get(self.url)
 
