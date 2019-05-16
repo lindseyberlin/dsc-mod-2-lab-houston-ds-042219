@@ -1,19 +1,23 @@
 # %%
 %load_ext autoreload
-
 %autoreload 2
 
 # %%
 from SqliteHandler import SqliteHandler
+from MongoHandler import MongoHandler
 from WeatherHandler import WeatherHandler
 from GameDataHandler import GameDataHandler
 import config
 
-sql_handler = SqliteHandler('database.sqlite')
+sql_handler = SqliteHandler(config.STAT_SQLITE_DB)
 weather_handler = WeatherHandler(config.API_key)
-games_handler = GameDataHandler(sql_handler, weather_handler)
+mongo_handler = MongoHandler(config.STAT_MONGO_CONNECTION, config.STAT_MONGO_DB_NAME)
+games_handler = GameDataHandler(sql_handler, weather_handler, mongo_handler)
 
 games = games_handler.get_games_per_season(2011)
+
+# %%
+games
 
 # %%
 print(games[0].away_team)
