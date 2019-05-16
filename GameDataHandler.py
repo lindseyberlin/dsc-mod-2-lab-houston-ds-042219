@@ -49,7 +49,8 @@ class GameDataHandler():
             Date as game_date, HomeTeam as home_team, AwayTeam as away_team,
             FTHG as ht_goals, FTAG as at_goals, FTR as output
             FROM Matches
-            WHERE Season = {};
+            WHERE Season = {}
+            AND Div = 'D1';
           """.format(season)
         )
 
@@ -70,6 +71,7 @@ class GameDataHandler():
                     13.41053,
                     game_data['game_date']
                     )
+                weather_info[game_data['game_date']] = is_raining
 
             game = Game(
                 game_data['id'],
