@@ -17,11 +17,28 @@ class Game():
         self.output = output
         self.is_raining = is_raining
 
-    def has_team_won(self, team_name):
+    def is_team_playing(self, team_name):
         # check if team in game
-        if team_name not in [self.home_team, self.away_team]:
+        return team_name in [self.home_team, self.away_team]
+
+    def is_team_home(self, team_name):
+        # check if team is playing at home
+        return team_name == self.home_team
+
+    def has_team_won(self, team_name):
+        if not self.is_team_playing(team_name):
             return None
-        elif team_name == self.home_team:
+        elif self.is_team_home(team_name):
             return self.ht_goals > self.at_goals
-        elif team_name == self.away_team:
+        else:
             return self.at_goals > self.ht_goals
+
+    def team_goals(self, team_name):
+        if not self.is_team_playing(team_name):
+            return None
+        elif self.is_team_home(team_name):
+            return self.ht_goals
+        else:
+            return self.at_goals
+
+

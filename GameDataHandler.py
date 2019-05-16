@@ -21,8 +21,9 @@ class GameDataHandler():
         self.sqlite_handler = sqlite_handler
 
         self.weather_handler = weather_handler
+        self.games = []
 
-    def get_games_per_season(self, season: int):
+    def set_games_per_season(self, season: int):
         """Retrieve all games per season.
 
         Retrieves all games per season.
@@ -87,4 +88,4 @@ class GameDataHandler():
             )
             season_games.append(game)
 
-        return season_games
+        self.games = season_games
