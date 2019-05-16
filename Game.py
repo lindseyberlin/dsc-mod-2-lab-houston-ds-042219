@@ -1,8 +1,11 @@
+"""Game class."""
+
+
 class Game():
 
-    def __init(self, id: int, division: str, season: str, date: str,
+    def __init__(self, id: int, division: str, season: str, date: str,
                home_team: str, away_team,
-               ht_goals, at_goals, output, is_raining):
+               ht_goals, at_goals, output, is_raining: bool):
         self.id = id
         self.division = division
         self.season = season
@@ -14,10 +17,7 @@ class Game():
         self.output = output
         self.is_raining = is_raining
 
-    def is_raining(self):
-        return self.is_raining
-
-    def team_has_win(self, team_name):
+    def has_team_won(self, team_name):
         # check if team in game
         if team_name not in [self.home_team, self.away_team]:
             return None
