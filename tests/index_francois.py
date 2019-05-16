@@ -29,3 +29,11 @@ print(games[0].is_raining)
 
 print(games[0].has_team_won('dsds'))
 print(games[0].has_team_won('Bayern Munich'))
+
+# %%
+from TeamSeasonStatistics import TeamSeasonStatistics
+
+stats_bayern = TeamSeasonStatistics('Bayern Munich', 2011, games_handler, mongo_handler)
+
+stats_bayern.get_statistics()
+stats_bayern.save()
