@@ -1,23 +1,10 @@
 """GameDataHandler is responsible for loading Games info."""
-import Game
-import WeatherHandler
-import SqliteHandler
+from Game import Game
+from WeatherHandler import WeatherHandler
+from SqliteHandler import SqliteHandler
 
 
 class GameDataHandler():
-    """GameDataHandler is responsible for loading Games info.
-
-    Parameters
-    ----------
-    sqlite_db : str
-        The path to game Sqlite DB.
-
-    Attributes
-    ----------
-    cur : sqlite3.Connection.cursor
-        Cursor to Sqlite DB.
-
-    """
 
     def __init__(self, sqlite_handler: SqliteHandler,
                  weather_handler: WeatherHandler):
@@ -26,9 +13,9 @@ class GameDataHandler():
         Parameters
         ----------
         sqlite_handler : SqliteHandler
-            Description of parameter `sqlite_handler`.
+            Sqlite connection handler.
         weather_handler : WeatherHandler
-            Description of parameter `weather_handler`.
+            Weather Handler API handler.
 
         """
         self.sqlite_handler = sqlite_handler
@@ -57,7 +44,7 @@ class GameDataHandler():
 
         # Request all season games.
         cur = self.sqlite_handler.get_cursor()
-        cur.get_cursor().execute("""
+        cur.execute("""
             SELECT Match_ID as id, Div as division, Season as season,
             Date as game_date, HomeTeam as home_team, AwayTeam as away_team,
             FTHG as ht_goals, FTAG as at_goals, FTR as output
@@ -66,14 +53,23 @@ class GameDataHandler():
           """.format(season)
         )
 
-        for game_data in self.cur.fetchall():
+        # Get record attributes
+        attributes = [x[0] for x in cur.description]
+
+        for row in cur.fetchall():
+            # Build data dict
+            game_data = dict(zip(attributes, row))
+
             # Retrieve weather info during game.
             is_raining = None
             if weather_info.get(game_data['game_date']):
                 is_raining = weather_info.get(game_data['game_date'])
             else:
                 is_raining = self.weather_handler.get_weather(
-                    game_data['game_date'])
+                    52.52437,
+                    13.41053,
+                    game_data['game_date']
+                    )
 
             game = Game(
                 game_data['id'],
@@ -85,7 +81,8 @@ class GameDataHandler():
                 game_data['ht_goals'],
                 game_data['at_goals'],
                 game_data['output'],
-                is_raining)
+                bool(is_raining)
+            )
             season_games.append(game)
 
         return season_games
