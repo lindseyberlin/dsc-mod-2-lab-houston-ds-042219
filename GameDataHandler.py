@@ -54,7 +54,8 @@ class GameDataHandler():
             season_games = []
             weather_info = {}
 
-            # Request all season games.
+            # Request all season games. We just retrieve data for D1 division
+            # in order to lower our API credits cinsumption.
             cur = self.sqlite_handler.get_cursor()
             cur.execute("""
                 SELECT Match_ID as id, Div as division, Season as season,
@@ -62,8 +63,7 @@ class GameDataHandler():
                 FTHG as ht_goals, FTAG as at_goals, FTR as output
                 FROM Matches
                 WHERE Season = {}
-                AND Div = 'D1'
-                LIMIT 2;
+                AND Div = 'D1';
               """.format(season)
             )
 

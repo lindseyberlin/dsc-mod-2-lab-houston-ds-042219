@@ -60,6 +60,7 @@ class TeamSeasonStatistics():
         return (len(raining_wins)/self.get_total_wins()) * 100
 
     def save(self):
+        """Save team statistics per season into MongoDB."""
         db_client = self.mongo_handler.get_client()
         stat_collection = db_client[TeamSeasonStatistics.STATISTICS_COLLECTION_NAME]
 
