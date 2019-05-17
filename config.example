@@ -1,0 +1,5 @@
+# Create a new config.py file and fill the bellow info.
+STAT_WEATHER_API_KEY={{your weather api key}}
+STAT_SQLITE_DB='database.sqlite'
+STAT_MONGO_CONNECTION='mongodb://127.0.0.1:27017/'
+STAT_MONGO_DB_NAME='games_db'

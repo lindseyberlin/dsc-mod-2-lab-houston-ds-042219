@@ -40,5 +40,3 @@ class Game():
             return self.ht_goals
         else:
             return self.at_goals
-
-
